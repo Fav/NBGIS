@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using System.Windows.Forms;
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.esriSystem;
-
 
 namespace NBGIS.PluginEngine
 {
@@ -18,9 +14,9 @@ namespace NBGIS.PluginEngine
         private string _Caption;
         private string _CurrentTool;
         private DataSet _MainDataSet;
-        private IMapDocument _Document;
-        private IMapControlDefault _MapControl;
-        private IPageLayoutControlDefault _PageLayoutControl;
+        private INBMapDocument _Document;
+        private INBMapControl _MapControl;
+        private INBPageLayoutControl _PageLayoutControl;
         private string _Name;
         private Form _MainPlatfrom;
         private System.Windows.Forms.StatusStrip _StatusBar;
@@ -77,7 +73,7 @@ namespace NBGIS.PluginEngine
         /// <summary>
         /// 主程序包含的文档对象
         /// </summary>
-        public IMapDocument Document
+        public INBMapDocument Document
         {
             get
             {
@@ -92,7 +88,7 @@ namespace NBGIS.PluginEngine
         /// <summary>
         /// 主程序中的MapControl控件
         /// </summary>
-        public IMapControlDefault MapControl
+        public INBMapControl MapControl
         {
             get
             {
@@ -107,7 +103,7 @@ namespace NBGIS.PluginEngine
         /// <summary>
         /// 主程序中的PageLayoutControl控件
         /// </summary>
-        public IPageLayoutControlDefault PageLayoutControl
+        public INBPageLayoutControl PageLayoutControl
         {
             get
             {

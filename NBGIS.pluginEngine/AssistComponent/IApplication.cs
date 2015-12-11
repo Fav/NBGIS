@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using System.Windows.Forms;
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.esriSystem;
 
 namespace NBGIS.PluginEngine
 {
@@ -29,15 +26,15 @@ namespace NBGIS.PluginEngine
         /// <summary>
         /// 主程序包含的文档对象
         /// </summary>
-        IMapDocument Document { get;set;}
+        INBMapDocument Document { get;set;}
         /// <summary>
         /// 主程序中的MapControl控件
         /// </summary>
-        IMapControlDefault MapControl { get;set;}
+        INBMapControl MapControl { get;set;}
         /// <summary>
         /// 主程序中的PageLayoutControl控件
         /// </summary>
-        IPageLayoutControlDefault PageLayoutControl { get;set;}
+        INBPageLayoutControl PageLayoutControl { get;set;}
         /// <summary>
         /// 主程序的名称
         /// </summary>

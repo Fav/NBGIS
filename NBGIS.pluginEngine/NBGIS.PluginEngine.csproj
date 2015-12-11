@@ -37,15 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.Carto, Version=9.2.0.1324, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Controls, Version=9.2.0.1324, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.System, Version=9.2.0.1324, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\OtherDll\log4net.dll</HintPath>
     </Reference>
@@ -58,7 +49,11 @@
   <ItemGroup>
     <Compile Include="AssistComponent\Application.cs" />
     <Compile Include="AppLog.cs" />
+    <Compile Include="AssistComponent\INBActiveView.cs" />
     <Compile Include="AssistComponent\IApplication.cs" />
+    <Compile Include="AssistComponent\INBMapControl.cs" />
+    <Compile Include="AssistComponent\INBMapDocument.cs" />
+    <Compile Include="AssistComponent\INBPageLayoutControl.cs" />
     <Compile Include="PluginInterface\ICommand.cs" />
     <Compile Include="PluginInterface\IDockableWindowDef.cs" />
     <Compile Include="AssistComponent\IItemDef.cs" />

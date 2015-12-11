@@ -8,8 +8,8 @@
     <ProjectGuid>{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBGISFunLib</RootNamespace>
-    <AssemblyName>NBGISFunLib</AssemblyName>
+    <RootNamespace>NBGIS.FunLib</RootNamespace>
+    <AssemblyName>NBGIS.FunLib</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CHelp.cs" />
+    <Compile Include="CTest.cs" />
     <Compile Include="FrmHelp.cs">
       <SubType>Form</SubType>
     </Compile>

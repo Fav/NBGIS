@@ -7,13 +7,6 @@ using System.Drawing;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.Display;
-using ESRI.ArcGIS.esriSystem;
-using ESRI.ArcGIS.SystemUI;
-using ESRI.ArcGIS.Geodatabase;
-using ESRI.ArcGIS.Geometry;
 using NBGIS.PluginEngine;
 
 namespace NBGIS.MainGIS
@@ -22,9 +15,9 @@ namespace NBGIS.MainGIS
     {
         #region 公共变量
         //地图控件对象
-        private ESRI.ArcGIS.Controls.IMapControlDefault _mapControl = null;
-        private ESRI.ArcGIS.Controls.IPageLayoutControlDefault _pageLayoutControl = null;
-        private ESRI.ArcGIS.Controls.ITOCControlDefault _tocControl = null;
+        private INBMapControl _mapControl = null;
+        private INBPageLayoutControl _pageLayoutControl = null;
+        //private ESRI.ArcGIS.Controls.ITOCControlDefault _tocControl = null;
 
         //宿主对象
         private NBGIS.PluginEngine.IApplication _App = null;
@@ -42,12 +35,12 @@ namespace NBGIS.MainGIS
         //DockableWindow集合
         private Dictionary<string, NBGIS.PluginEngine.IDockableWindowDef> _DockableWindowCol = null;
         //当前使用的Tool
-        private NBGIS.PluginEngine.ITool _Tool = null;
+        //private NBGIS.PluginEngine.ITool _Tool = null;
 
         //同步类
-        private ControlsSynchronizer m_controlsSynchronizer = null;
-        //TOCControl的esriTOOControlItemMap被右键点击后弹出的快捷菜单
-        private IToolbarMenu _mapMenu = null;
+        //private ControlsSynchronizer m_controlsSynchronizer = null;
+        ////TOCControl的esriTOOControlItemMap被右键点击后弹出的快捷菜单
+        //private IToolbarMenu _mapMenu = null;
 
         #endregion
 
@@ -57,11 +50,11 @@ namespace NBGIS.MainGIS
         {
             InitializeComponent();
             //设置图层控件的同步控件
-            axTOCControl.SetBuddyControl(axMapControl);
+            //axTOCControl.SetBuddyControl(axMapControl);
             //初始化公共变量
-            _mapControl = axMapControl.Object as IMapControlDefault;
-            _pageLayoutControl = axPageLayoutControl.Object as IPageLayoutControlDefault;
-            _tocControl = axTOCControl.Object as ITOCControlDefault;
+            _mapControl = mapControl1;
+            _pageLayoutControl = pageLayoutControl1;
+            //_tocControl = axTOCControl.Object as ITOCControlDefault;
             _DataSet = new DataSet();
             //初始化主框架
             _App = new NBGIS.PluginEngine.Application();
@@ -74,16 +67,16 @@ namespace NBGIS.MainGIS
             _App.CurrentTool = null;
             _App.MainDataSet = _DataSet;
 
-            //让MapControl和PageLatoutControl保存同步
-            m_controlsSynchronizer = new ControlsSynchronizer(_mapControl, _pageLayoutControl);
-            m_controlsSynchronizer.BindControls(true);
-            m_controlsSynchronizer.AddFrameWorkControl(axTOCControl.Object);
+            ////让MapControl和PageLatoutControl保存同步
+            //m_controlsSynchronizer = new ControlsSynchronizer(_mapControl, _pageLayoutControl);
+            //m_controlsSynchronizer.BindControls(true);
+            //m_controlsSynchronizer.AddFrameWorkControl(axTOCControl.Object);
 
             //TOCControl的esriTOOControlItemMap被右键点击后弹出的快捷菜单
-            _mapMenu = new ToolbarMenuClass();
-            _mapMenu.AddItem(new MapMenu(), 1, 0, false, esriCommandStyles.esriCommandStyleTextOnly);
-            _mapMenu.AddItem(new MapMenu(), 2, 1, false, esriCommandStyles.esriCommandStyleTextOnly);
-            _mapMenu.SetHook(this._mapControl);
+            //_mapMenu = new ToolbarMenuClass();
+            //_mapMenu.AddItem(new MapMenu(), 1, 0, false, esriCommandStyles.esriCommandStyleTextOnly);
+            //_mapMenu.AddItem(new MapMenu(), 2, 1, false, esriCommandStyles.esriCommandStyleTextOnly);
+            //_mapMenu.SetHook(this._mapControl);
 
         }
 
@@ -118,8 +111,8 @@ namespace NBGIS.MainGIS
             CreateMenus(_MenuItemCol);
             CreateDockableWindow(_DockableWindowCol);
             //保证宿主程序启动后不存在任何默认的处于使用状态的ITool对象
-            _mapControl.CurrentTool = null;
-            _pageLayoutControl.CurrentTool = null;
+            //_mapControl.CurrentTool = null;
+            //_pageLayoutControl.CurrentTool = null;
         }
 
         #region 方法
@@ -394,7 +387,7 @@ namespace NBGIS.MainGIS
             }
             //((ToolStripButton)sender).Checked = true;
             //设置Map控件的鼠标
-            axMapControl.MousePointer = esriControlsMousePointer.esriPointerDefault;
+            _mapControl.MousePointer = 0;
             cmd.OnClick();
             //((ToolStripButton)sender).Checked = false;
             if (null != pTempBtn)
@@ -426,8 +419,8 @@ namespace NBGIS.MainGIS
                 {
                     pTempBtn.Checked = true;
                 }
-                axMapControl.MousePointer = (ESRI.ArcGIS.Controls.esriControlsMousePointer)(tool.Cursor);
-                axPageLayoutControl.MousePointer = (ESRI.ArcGIS.Controls.esriControlsMousePointer)(tool.Cursor);
+                _mapControl.MousePointer = tool.Cursor;
+                _pageLayoutControl.MousePointer = tool.Cursor;
                 tool.OnClick();
                 _App.CurrentTool = tool.ToString();
             }
@@ -440,8 +433,8 @@ namespace NBGIS.MainGIS
                     {
                         pTempBtn.Checked = false;
                     }
-                    axMapControl.MousePointer = esriControlsMousePointer.esriPointerDefault;
-                    axPageLayoutControl.MousePointer = esriControlsMousePointer.esriPointerDefault;
+                    _mapControl.MousePointer = 0;
+                    _pageLayoutControl.MousePointer = 0;
                     _App.CurrentTool = null;
                     _App.MapControl.CurrentTool = null;
                     _App.PageLayoutControl.CurrentTool = null;
@@ -469,8 +462,8 @@ namespace NBGIS.MainGIS
                     {
                         pTempBtn.Checked = false;
                     }
-                    axMapControl.MousePointer = (ESRI.ArcGIS.Controls.esriControlsMousePointer)(tool.Cursor);
-                    axPageLayoutControl.MousePointer = (ESRI.ArcGIS.Controls.esriControlsMousePointer)(tool.Cursor);
+                    _mapControl.MousePointer = tool.Cursor;
+                    _pageLayoutControl.MousePointer = tool.Cursor;
                     tool.OnClick();
                     _App.CurrentTool = tool.ToString();
                 }
@@ -498,231 +491,231 @@ namespace NBGIS.MainGIS
  
         #endregion
 
-        #region MapControl事件处理
-        private void axMapControl_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                //左键
-                if (e.button == 1)
-                {
-                    _Tool.OnMouseDown(e.button, e.shift, (int)e.mapX, (int)e.mapY);
-                }
-                else if (e.button == 2)//右键
-                {
-                    _Tool.OnContextMenu(e.x, e.y);
-                }
-            }
-            toolStripStatusLabel2.Text = " 当前坐标X：" + e.mapX.ToString() + "  Y：" + e.mapY.ToString();
-        }
+        //#region MapControl事件处理
+        //private void axMapControl_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        //左键
+        //        if (e.button == 1)
+        //        {
+        //            _Tool.OnMouseDown(e.button, e.shift, (int)e.mapX, (int)e.mapY);
+        //        }
+        //        else if (e.button == 2)//右键
+        //        {
+        //            _Tool.OnContextMenu(e.x, e.y);
+        //        }
+        //    }
+        //    toolStripStatusLabel2.Text = " 当前坐标X：" + e.mapX.ToString() + "  Y：" + e.mapY.ToString();
+        //}
 
-        private void axMapControl_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnMouseMove(e.button, e.shift, (int)e.mapX, (int)e.mapY);
-            }
-            toolStripStatusLabel2.Text = " 当前坐标X：" + e.mapX.ToString() + "  Y：" + e.mapY.ToString();
-            toolStripStatusLabel3.Text = "比例尺：" + ((long)(_mapControl.MapScale)).ToString();
-        }
+        //private void axMapControl_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnMouseMove(e.button, e.shift, (int)e.mapX, (int)e.mapY);
+        //    }
+        //    toolStripStatusLabel2.Text = " 当前坐标X：" + e.mapX.ToString() + "  Y：" + e.mapY.ToString();
+        //    toolStripStatusLabel3.Text = "比例尺：" + ((long)(_mapControl.MapScale)).ToString();
+        //}
 
-        private void axMapControl_OnMouseUp(object sender, IMapControlEvents2_OnMouseUpEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnMouseUp(e.button, e.shift, (int)e.mapX, (int)e.mapY);
-            }
-            toolStripStatusLabel2.Text = " 当前坐标X：" + e.mapX.ToString() + "  Y：" + e.mapY.ToString();
-        }
+        //private void axMapControl_OnMouseUp(object sender, IMapControlEvents2_OnMouseUpEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnMouseUp(e.button, e.shift, (int)e.mapX, (int)e.mapY);
+        //    }
+        //    toolStripStatusLabel2.Text = " 当前坐标X：" + e.mapX.ToString() + "  Y：" + e.mapY.ToString();
+        //}
 
-        private void axMapControl_OnKeyDown(object sender, IMapControlEvents2_OnKeyDownEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnKeyDown(e.keyCode, e.shift);
-            }
-        }
+        //private void axMapControl_OnKeyDown(object sender, IMapControlEvents2_OnKeyDownEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnKeyDown(e.keyCode, e.shift);
+        //    }
+        //}
 
-        private void axMapControl_OnKeyUp(object sender, IMapControlEvents2_OnKeyUpEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnKeyUp(e.keyCode, e.shift);
-            }
-        }
+        //private void axMapControl_OnKeyUp(object sender, IMapControlEvents2_OnKeyUpEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnKeyUp(e.keyCode, e.shift);
+        //    }
+        //}
 
-        private void axMapControl_OnDoubleClick(object sender, IMapControlEvents2_OnDoubleClickEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnDblClick();
-            }
-        }
+        //private void axMapControl_OnDoubleClick(object sender, IMapControlEvents2_OnDoubleClickEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnDblClick();
+        //    }
+        //}
 
-        private void axMapControl_OnViewRefreshed(object sender, IMapControlEvents2_OnViewRefreshedEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.Refresh(0);
-            }
-        }
+        //private void axMapControl_OnViewRefreshed(object sender, IMapControlEvents2_OnViewRefreshedEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.Refresh(0);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
-        #region PageLayoutControl事件处理
+        //#region PageLayoutControl事件处理
 
-        private void axPageLayoutControl_OnMouseDown(object sender, IPageLayoutControlEvents_OnMouseDownEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                //左键
-                if (e.button == 1)
-                {
-                    _Tool.OnMouseDown(e.button, e.shift, (int)e.pageX, (int)e.pageY);
-                }
-                else if (e.button == 2)//右键
-                {
-                    _Tool.OnContextMenu(e.x, e.y);
-                }
-            }
-        }
+        //private void axPageLayoutControl_OnMouseDown(object sender, IPageLayoutControlEvents_OnMouseDownEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        //左键
+        //        if (e.button == 1)
+        //        {
+        //            _Tool.OnMouseDown(e.button, e.shift, (int)e.pageX, (int)e.pageY);
+        //        }
+        //        else if (e.button == 2)//右键
+        //        {
+        //            _Tool.OnContextMenu(e.x, e.y);
+        //        }
+        //    }
+        //}
 
-        private void axPageLayoutControl_OnMouseMove(object sender, IPageLayoutControlEvents_OnMouseMoveEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnMouseMove(e.button, e.shift, (int)e.pageX, (int)e.pageY);
-            }
-        }
+        //private void axPageLayoutControl_OnMouseMove(object sender, IPageLayoutControlEvents_OnMouseMoveEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnMouseMove(e.button, e.shift, (int)e.pageX, (int)e.pageY);
+        //    }
+        //}
 
-        private void axPageLayoutControl_OnMouseUp(object sender, IPageLayoutControlEvents_OnMouseUpEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnMouseUp(e.button, e.shift, (int)e.pageX, (int)e.pageY);
-            }
-        }
+        //private void axPageLayoutControl_OnMouseUp(object sender, IPageLayoutControlEvents_OnMouseUpEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnMouseUp(e.button, e.shift, (int)e.pageX, (int)e.pageY);
+        //    }
+        //}
 
-        private void axPageLayoutControl_OnDoubleClick(object sender, IPageLayoutControlEvents_OnDoubleClickEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnDblClick();
-            }
-        }
+        //private void axPageLayoutControl_OnDoubleClick(object sender, IPageLayoutControlEvents_OnDoubleClickEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnDblClick();
+        //    }
+        //}
 
-        private void axPageLayoutControl_OnKeyDown(object sender, IPageLayoutControlEvents_OnKeyDownEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnKeyDown(e.keyCode, e.shift);
-            }
-        }
+        //private void axPageLayoutControl_OnKeyDown(object sender, IPageLayoutControlEvents_OnKeyDownEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnKeyDown(e.keyCode, e.shift);
+        //    }
+        //}
 
-        private void axPageLayoutControl_OnKeyUp(object sender, IPageLayoutControlEvents_OnKeyUpEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.OnKeyUp(e.keyCode, e.shift);
-            }
-        }
+        //private void axPageLayoutControl_OnKeyUp(object sender, IPageLayoutControlEvents_OnKeyUpEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.OnKeyUp(e.keyCode, e.shift);
+        //    }
+        //}
 
-        private void axPageLayoutControl_OnViewRefreshed(object sender, IPageLayoutControlEvents_OnViewRefreshedEvent e)
-        {
-            if (_App.CurrentTool != null)
-            {
-                _Tool = _ToolCol[_App.CurrentTool];
-                _Tool.Refresh(0);
-            }
-        }
+        //private void axPageLayoutControl_OnViewRefreshed(object sender, IPageLayoutControlEvents_OnViewRefreshedEvent e)
+        //{
+        //    if (_App.CurrentTool != null)
+        //    {
+        //        _Tool = _ToolCol[_App.CurrentTool];
+        //        _Tool.Refresh(0);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
-        private void axTOCControl_OnMouseDown(object sender, ITOCControlEvents_OnMouseDownEvent e)
-        {
-            esriTOCControlItem item = esriTOCControlItem.esriTOCControlItemNone;
-            IBasicMap map = null;
-            ILayer layer = null;
-            object other = null;
-            object index = null;
+        //private void axTOCControl_OnMouseDown(object sender, ITOCControlEvents_OnMouseDownEvent e)
+        //{
+        //    esriTOCControlItem item = esriTOCControlItem.esriTOCControlItemNone;
+        //    IBasicMap map = null;
+        //    ILayer layer = null;
+        //    object other = null;
+        //    object index = null;
 
-            _tocControl.HitTest(e.x, e.y, ref item, ref map, ref layer, ref other, ref index);
-            //确保有项目被选择
-            if (item == esriTOCControlItem.esriTOCControlItemMap)
-                _tocControl.SelectItem(map, null);
-            else
-                _tocControl.SelectItem(layer, null);
+        //    _tocControl.HitTest(e.x, e.y, ref item, ref map, ref layer, ref other, ref index);
+        //    //确保有项目被选择
+        //    if (item == esriTOCControlItem.esriTOCControlItemMap)
+        //        _tocControl.SelectItem(map, null);
+        //    else
+        //        _tocControl.SelectItem(layer, null);
 
-            //选择的是Map
-            if (item == esriTOCControlItem.esriTOCControlItemMap)
-            {
-                //将Map信息传递给propertyGrid控件
-                MapInfo _mapInfo = new MapInfo(_mapControl.Map);
-                //propertyGrid.SelectedObject = _mapInfo;
-                //如果是右键点击,弹出菜单
-                if (e.button == 2)
-                {
-                    _mapMenu.PopupMenu(e.x, e.y, _tocControl.hWnd);
-                }
-            }
-            //选择的是 Layer
-            if (item == esriTOCControlItem.esriTOCControlItemLayer)
-            {
-                //将Layer信息传递给PropertyGrid控件
-                _mapControl.CustomProperty = layer;
+        //    //选择的是Map
+        //    if (item == esriTOCControlItem.esriTOCControlItemMap)
+        //    {
+        //        //将Map信息传递给propertyGrid控件
+        //        MapInfo _mapInfo = new MapInfo(_mapControl.Map);
+        //        //propertyGrid.SelectedObject = _mapInfo;
+        //        //如果是右键点击,弹出菜单
+        //        if (e.button == 2)
+        //        {
+        //            _mapMenu.PopupMenu(e.x, e.y, _tocControl.hWnd);
+        //        }
+        //    }
+        //    //选择的是 Layer
+        //    if (item == esriTOCControlItem.esriTOCControlItemLayer)
+        //    {
+        //        //将Layer信息传递给PropertyGrid控件
+        //        _mapControl.CustomProperty = layer;
 
-                IFeatureLayer pFeatLyr = layer as IFeatureLayer;
+        //        IFeatureLayer pFeatLyr = layer as IFeatureLayer;
 
-                if (pFeatLyr == null)
-                    return;
-                MapLayerInfo _mapLyrInfo = new MapLayerInfo(pFeatLyr, _mapControl.Map);
-                //propertyGrid.SelectedObject = _mapLyrInfo;
+        //        if (pFeatLyr == null)
+        //            return;
+        //        MapLayerInfo _mapLyrInfo = new MapLayerInfo(pFeatLyr, _mapControl.Map);
+        //        //propertyGrid.SelectedObject = _mapLyrInfo;
 
-                //_App.StatusBar.Panels[0].Text = "当前选择图层:" + layer.Name;
+        //        //_App.StatusBar.Panels[0].Text = "当前选择图层:" + layer.Name;
 
-                //数据表中出现当前图层数据
-                //获取有效的图层名称 a_b被解析为a.b
-                string LayerName = LayerDataTable.getValidFeatureClassName(layer.Name);
-                //判断当前图层是否存在Selection
-                IFeatureSelection pFeatureSelection = layer as IFeatureSelection;
-                if (pFeatureSelection.SelectionSet.Count > 0)
-                {
-                    LayerName += "_Selection";
-                    if (_App.MainDataSet.Tables.Contains(LayerName))
-                    {
-                        _App.MainDataSet.Tables.Remove(LayerName);
-                    }
-                    DataTable dt = LayerDataTable.CreateDataTable(layer, LayerName);
-                    _App.MainDataSet.Tables.Add(dt);
-                }
-                else
-                {
-                    if (!this._App.MainDataSet.Tables.Contains(LayerName))
-                    {
-                        DataTable dt = LayerDataTable.CreateDataTable(layer, LayerName);
-                        _App.MainDataSet.Tables.Add(dt);
-                    }
-                }
-                //bindingSource.DataSource = _App.MainDataSet;
-                //bindingSource.DataMember = LayerName;
-                //dataGridView.DataSource = bindingSource;
-                //DataPanel.Text = "数据表[" + LayerName + "]" + "  记录数：" + _DataSet.Tables[LayerName].Rows.Count.ToString();
-                //dataGridView.Refresh();
-            }
-        }
+        //        //数据表中出现当前图层数据
+        //        //获取有效的图层名称 a_b被解析为a.b
+        //        string LayerName = LayerDataTable.getValidFeatureClassName(layer.Name);
+        //        //判断当前图层是否存在Selection
+        //        IFeatureSelection pFeatureSelection = layer as IFeatureSelection;
+        //        if (pFeatureSelection.SelectionSet.Count > 0)
+        //        {
+        //            LayerName += "_Selection";
+        //            if (_App.MainDataSet.Tables.Contains(LayerName))
+        //            {
+        //                _App.MainDataSet.Tables.Remove(LayerName);
+        //            }
+        //            DataTable dt = LayerDataTable.CreateDataTable(layer, LayerName);
+        //            _App.MainDataSet.Tables.Add(dt);
+        //        }
+        //        else
+        //        {
+        //            if (!this._App.MainDataSet.Tables.Contains(LayerName))
+        //            {
+        //                DataTable dt = LayerDataTable.CreateDataTable(layer, LayerName);
+        //                _App.MainDataSet.Tables.Add(dt);
+        //            }
+        //        }
+        //        //bindingSource.DataSource = _App.MainDataSet;
+        //        //bindingSource.DataMember = LayerName;
+        //        //dataGridView.DataSource = bindingSource;
+        //        //DataPanel.Text = "数据表[" + LayerName + "]" + "  记录数：" + _DataSet.Tables[LayerName].Rows.Count.ToString();
+        //        //dataGridView.Refresh();
+        //    }
+        //}
 
         //private void TOCPanel_SelectedPanelChanged(object sender, PanelActionEventArgs e)
         //{
@@ -734,71 +727,71 @@ namespace NBGIS.MainGIS
 
         private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex != -1)
-            {
-                IFeature pFeat = null;
-                try
-                {
-                    IFeatureClass pFeatCls = (_mapControl.CustomProperty as IFeatureLayer).FeatureClass;
-                    //寻找该行记录对应的要素
-                    //pFeat = pFeatCls.GetFeature(Convert.ToInt32(dataGridView.Rows[e.RowIndex].Cells[0].Value));
-                }
-                catch
-                {
-                    pFeat = null;
-                }
-                if (pFeat != null)
-                {
-                    //要素的定义
-                    if (pFeat.Shape.GeometryType == esriGeometryType.esriGeometryPoint)
-                    {
-                        this.axMapControl.CenterAt((IPoint)pFeat.Shape);
-                    }
-                    else
-                    {
-                        IEnvelope pEnv = pFeat.Shape.Envelope;
-                        pEnv.Expand(5, 5, true);
-                        axMapControl.ActiveView.Extent = pEnv;
-                    }
-                    axMapControl.ActiveView.Refresh();
-                    axMapControl.ActiveView.ScreenDisplay.UpdateWindow();
-                    //用于解决先定位后闪烁的问题
-                    //自定义闪烁功能
-                    switch (pFeat.Shape.GeometryType)
-                    {
-                        case esriGeometryType.esriGeometryPoint:
-                            FlashFeature.FlashPoint(axMapControl, axMapControl.ActiveView.ScreenDisplay, pFeat.Shape);
-                            break;
-                        case esriGeometryType.esriGeometryPolyline:
-                            FlashFeature.FlashLine(axMapControl, axMapControl.ActiveView.ScreenDisplay, pFeat.Shape);
-                            break;
-                        case esriGeometryType.esriGeometryPolygon:
-                            FlashFeature.FlashPolygon(axMapControl, axMapControl.ActiveView.ScreenDisplay, pFeat.Shape);
-                            break;
-                        default:
-                            break;
-                    }
+            //if (e.RowIndex != -1)
+            //{
+            //    IFeature pFeat = null;
+            //    try
+            //    {
+            //        IFeatureClass pFeatCls = (_mapControl.CustomProperty as IFeatureLayer).FeatureClass;
+            //        //寻找该行记录对应的要素
+            //        //pFeat = pFeatCls.GetFeature(Convert.ToInt32(dataGridView.Rows[e.RowIndex].Cells[0].Value));
+            //    }
+            //    catch
+            //    {
+            //        pFeat = null;
+            //    }
+            //    if (pFeat != null)
+            //    {
+            //        //要素的定义
+            //        if (pFeat.Shape.GeometryType == esriGeometryType.esriGeometryPoint)
+            //        {
+            //            this.axMapControl.CenterAt((IPoint)pFeat.Shape);
+            //        }
+            //        else
+            //        {
+            //            IEnvelope pEnv = pFeat.Shape.Envelope;
+            //            pEnv.Expand(5, 5, true);
+            //            axMapControl.ActiveView.Extent = pEnv;
+            //        }
+            //        axMapControl.ActiveView.Refresh();
+            //        axMapControl.ActiveView.ScreenDisplay.UpdateWindow();
+            //        //用于解决先定位后闪烁的问题
+            //        //自定义闪烁功能
+            //        switch (pFeat.Shape.GeometryType)
+            //        {
+            //            case esriGeometryType.esriGeometryPoint:
+            //                FlashFeature.FlashPoint(axMapControl, axMapControl.ActiveView.ScreenDisplay, pFeat.Shape);
+            //                break;
+            //            case esriGeometryType.esriGeometryPolyline:
+            //                FlashFeature.FlashLine(axMapControl, axMapControl.ActiveView.ScreenDisplay, pFeat.Shape);
+            //                break;
+            //            case esriGeometryType.esriGeometryPolygon:
+            //                FlashFeature.FlashPolygon(axMapControl, axMapControl.ActiveView.ScreenDisplay, pFeat.Shape);
+            //                break;
+            //            default:
+            //                break;
+            //        }
 
-                    axMapControl.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
-                    axMapControl.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, null);
-                }
-            }
+            //        axMapControl.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
+            //        axMapControl.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, null);
+            //    }
+            //}
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_controlsSynchronizer == null)
-            {
-                return;
-            }
-            if (tabControl1.SelectedTab.Name.ToUpper().Equals("MAPTAB"))
-            {
-                m_controlsSynchronizer.ActivateMap();
-            }
-            else if (tabControl1.SelectedTab.Name.ToUpper().Equals("PAGETAB"))
-            {
-                m_controlsSynchronizer.ActivatePageLayout();
-            }
+            //if (m_controlsSynchronizer == null)
+            //{
+            //    return;
+            //}
+            //if (tabControl1.SelectedTab.Name.ToUpper().Equals("MAPTAB"))
+            //{
+            //    m_controlsSynchronizer.ActivateMap();
+            //}
+            //else if (tabControl1.SelectedTab.Name.ToUpper().Equals("PAGETAB"))
+            //{
+            //    m_controlsSynchronizer.ActivatePageLayout();
+            //}
         }
 
     }

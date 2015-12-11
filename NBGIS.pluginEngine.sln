@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.MainTools", "NBGIS.Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.FunLib", "NBGISFunLib\NBGIS.FunLib.csproj", "{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.ArcObj", "NBGIS.ArcObj\NBGIS.ArcObj.csproj", "{487FB75E-B43B-4F14-87D8-D3324DEBF204}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{487FB75E-B43B-4F14-87D8-D3324DEBF204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487FB75E-B43B-4F14-87D8-D3324DEBF204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487FB75E-B43B-4F14-87D8-D3324DEBF204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487FB75E-B43B-4F14-87D8-D3324DEBF204}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,7 +19,7 @@ namespace NBGIS.FunLib
 
         public long ItemCount
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         public void GetItemInfo(int pos, NBGIS.PluginEngine.ItemDef itemDef)
@@ -28,6 +28,10 @@ namespace NBGIS.FunLib
             {
                 case 0:
                     itemDef.ID = "NBGIS.FunLib.CHelp";
+                    itemDef.Group = false;
+                    break;
+                case 1:
+                    itemDef.ID = "NBGIS.FunLib.CTest";
                     itemDef.Group = false;
                     break;
                 default:

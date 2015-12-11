@@ -14,7 +14,7 @@ namespace NBGIS.MainGIS
         {
             if (!ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop))
             {
-                MessageBox.Show("Test");
+                MessageBox.Show("未授权");
                 return;
             }
             Application.EnableVisualStyles();

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using NBGIS.PluginEngine;
 
 namespace NBGIS.FunLib
 {
-    public class CHelp : NBGIS.PluginEngine.ICommand
+    public class CTest : NBGIS.PluginEngine.ICommand
     {
-        #region ICommand 成员
         public System.Drawing.Bitmap Bitmap
         {
             get { return null; }
@@ -16,12 +15,12 @@ namespace NBGIS.FunLib
 
         public string Caption
         {
-            get { return "帮助"; }
+            get {return "ct"; }
         }
 
         public string Category
         {
-            get { return "HelpMenu"; }
+            get { return "ct"; }
         }
 
         public bool Checked
@@ -41,17 +40,17 @@ namespace NBGIS.FunLib
 
         public string HelpFile
         {
-            get { return ""; }
+            get { return "ct"; }
         }
 
         public string Message
         {
-            get { return "帮助"; }
+            get { return "ct"; }
         }
 
         public string Name
         {
-            get { return "Help"; }
+            get { return "ct"; }
         }
 
         public void OnClick()
@@ -59,15 +58,13 @@ namespace NBGIS.FunLib
             System.Windows.Forms.MessageBox.Show("Test");
         }
 
-        public void OnCreate(NBGIS.PluginEngine.IApplication hook)
+        public void OnCreate(IApplication hook)
         {
         }
 
         public string Tooltip
         {
-            get { return "帮助"; }
+            get { return "ct"; }
         }
-
-        #endregion
     }
 }
