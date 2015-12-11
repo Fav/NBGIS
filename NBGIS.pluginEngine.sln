@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.PluginEngine", "NBGIS.PluginEngine\NBGIS.PluginEngine.csproj", "{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.MainGIS", "NBGIS.MainGIS\NBGIS.MainGIS.csproj", "{521EE91C-BD19-4C9A-B1E7-2A3C887204AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3} = {DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.MainTools", "NBGIS.MainTools\NBGIS.MainTools.csproj", "{A8731F39-AC33-430D-A895-64EA15BDD536}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3} = {DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBGIS.FunLib", "NBGISFunLib\NBGIS.FunLib.csproj", "{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEC99734-FB43-4B3A-A6A0-2E711E3FB8B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521EE91C-BD19-4C9A-B1E7-2A3C887204AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521EE91C-BD19-4C9A-B1E7-2A3C887204AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521EE91C-BD19-4C9A-B1E7-2A3C887204AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521EE91C-BD19-4C9A-B1E7-2A3C887204AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8731F39-AC33-430D-A895-64EA15BDD536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8731F39-AC33-430D-A895-64EA15BDD536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8731F39-AC33-430D-A895-64EA15BDD536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8731F39-AC33-430D-A895-64EA15BDD536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6DCC2F0-9BD9-469D-9B02-F8297A1AC3F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
